@@ -13,7 +13,6 @@ import {
   Platform, 
   StyleSheet, 
   Slider,
-  ScrollView,
   Button,
   FlatList,
   Text, 
@@ -80,18 +79,26 @@ export default class App extends Component<Props> {
     AccessibilityInfo.announceForAccessibility(utterance);
   };
 
-  renderItem = ({ item, index }) => {
+  renderList = ({ _item, index}) => {
     return (
-      <View
-        style={{
-          margin: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 100,
-          height: 50,
-          backgroundColor: 'green',
-        }}
-      >
+      <View accessible>
+        <Text>List {index + 1}</Text>
+        <FlatList
+          horizontal
+          data={data}
+          keyExtractor={item => "L" + item}
+          renderItem={this.renderItem}
+          getItemLayout={this.getItemLayout}
+          ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this.renderFooter}
+        />
+      </View>
+    );
+  };
+
+  renderItem = ({ _item, index }) => {
+    return (
+      <View style={styles.item}>
         <Text>Item {index}</Text>
       </View>
     );
@@ -99,16 +106,7 @@ export default class App extends Component<Props> {
 
   renderHeader = () => {
     return (
-      <View
-        style={{
-          margin: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 100,
-          height: 50,
-          backgroundColor: 'red',
-        }}
-      >
+      <View style={styles.header}>
         <Text>Header</Text>
       </View>
     );
@@ -116,16 +114,7 @@ export default class App extends Component<Props> {
 
   renderFooter = () => {
     return (
-      <View
-        style={{
-          margin: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 100,
-          height: 50,
-          backgroundColor: 'red',
-        }}
-      >
+      <View style={styles.footer}>
         <Text>Footer</Text>
       </View>
     );
@@ -174,54 +163,9 @@ export default class App extends Component<Props> {
             <FlatList
               data={data}
               keyExtractor={item => "L" + item}
-              renderItem={({ _, index }) => {
-                return (
-                  <View accessible>
-                    <Text>List {index + 1}</Text>
-                    <FlatList
-                      horizontal
-                      data={data}
-                      keyExtractor={item => "" + item}
-                      renderItem={this.renderItem}
-                      getItemLayout={this.getItemLayout}
-                      ListHeaderComponent={this.renderHeader}
-                      ListFooterComponent={this.renderFooter}
-                    />
-                  </View>
-                );
-              }}
-              ListHeaderComponent={() => {
-                return (
-                  <View
-                    style={{
-                      margin: 5,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 100,
-                      height: 50,
-                      backgroundColor: 'yellow',
-                    }}
-                  >
-                    <Text>List Header</Text>
-                  </View>
-                );
-              }}
-              ListFooterComponent={() => {
-                return (
-                  <View
-                    style={{
-                      margin: 5,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 100,
-                      height: 50,
-                      backgroundColor: 'yellow',
-                    }}
-                  >
-                    <Text>List Footer</Text>
-                  </View>
-                );
-              }}
+              renderItem={this.renderList}
+              ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
             />
           </View>
           <View style={{
@@ -267,5 +211,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  header: {
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 50,
+    backgroundColor: 'red',
+  },
+  footer: {
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 50,
+    backgroundColor: 'red',
+  },
+  item: {
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 50,
+    backgroundColor: 'green',
   },
 });
