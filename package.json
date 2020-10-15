@@ -23,6 +23,20 @@
     "react-test-renderer": "16.6.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "@youi/react-native-youi",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!(jest-)?react-native|@youi)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/appium/"
+    ]
+  },
+  "youi": {
+    "entryFile": "index.youi.js",
+    "defaultBundleMode": "remote"
   }
 }
