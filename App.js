@@ -81,7 +81,7 @@ export default class App extends Component<Props> {
 
   renderList = ({ _item, index}) => {
     return (
-      <View accessible>
+      <View>
         <Text>List {index + 1}</Text>
         <FlatList
           horizontal
